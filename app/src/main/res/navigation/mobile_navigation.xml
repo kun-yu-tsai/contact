@@ -5,5 +5,11 @@
             app:startDestination="@id/contactListFragment">
 
     <fragment android:id="@+id/contactListFragment" android:name="com.example.contacts.ui.list.ContactListFragment"
-              android:label="fragment_contact_list" tools:layout="@layout/fragment_contact_list"/>
+              android:label="fragment_contact_list" tools:layout="@layout/fragment_contact_list">
+        <action android:id="@+id/showDetailedContact"
+                app:destination="@id/contactDetailFragment"/>
+    </fragment>
+    <fragment android:id="@+id/contactDetailFragment"
+              android:name="com.example.contacts.ui.detail.ContactDetailFragment"
+              android:label="fragment_contact_detail" tools:layout="@layout/fragment_contact_detail"/>
 </navigation>

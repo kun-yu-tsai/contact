@@ -1,5 +1,7 @@
 package com.example.contacts.data.repository
 
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import com.example.contacts.data.entity.Contact
 import com.example.contacts.data.entity.DetailedContact
@@ -21,5 +23,13 @@ class ContactRepositoryImpl(
 
     override fun updateDetailContact(detailedContact: DetailedContact) {
         contactDao.updateDetailContact(detailedContact)
+    }
+
+    override fun getThumbnail(contact: Contact): Bitmap {
+        return contactDao.getThumbnail(Uri.parse(contact.thumbnailUri))
+    }
+
+    override fun getFullSizePhoto(contact: Contact): Bitmap {
+        return contactDao.getFullSizePhoto(Uri.parse(contact.fullSizePhotoUri))
     }
 }
