@@ -25,8 +25,10 @@ class ContactRepositoryImpl(
         contactDao.updateDetailContact(detailedContact)
     }
 
-    override fun getThumbnail(contact: Contact): Bitmap {
-        return contactDao.getThumbnail(Uri.parse(contact.thumbnailUri))
+    override suspend fun getThumbnail(contact: Contact): Bitmap {
+        return withContext(Dispatchers.IO){
+            contactDao.getThumbnail(Uri.parse(contact.thumbnailUri))
+        }
     }
 
     override fun getFullSizePhoto(contact: Contact): Bitmap {

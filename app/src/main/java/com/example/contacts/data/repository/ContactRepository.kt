@@ -10,6 +10,6 @@ interface ContactRepository {
     suspend fun getAllContact() : List<Contact>
     fun readDetailContact(): LiveData<DetailedContact>
     fun updateDetailContact(detailedContact: DetailedContact)
-    fun getThumbnail(contact: Contact): Bitmap
+    suspend fun getThumbnail(contact: Contact): Bitmap
     fun getFullSizePhoto(contact: Contact): Bitmap
 }
