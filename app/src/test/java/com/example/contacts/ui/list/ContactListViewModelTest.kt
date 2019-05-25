@@ -16,7 +16,7 @@ class ContactListViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     @Test
-    fun test_emptyList_views_visibility() = runBlocking {
+    fun when_emptyContactList_viewVisibility_values() = runBlocking {
         val contactRepository: ContactRepository = mock()
         val list = emptyList<Contact>()
         whenever(contactRepository.getAllContact()).thenReturn(list)

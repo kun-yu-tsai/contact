@@ -62,11 +62,7 @@ class ContactDetailFragment : Fragment(), CoroutineScope, KodeinAware {
                 avatar.setImageBitmap(fullSizedAvatar)
             }
         )
-    }
 
-
-    override fun onStart() {
-        super.onStart()
         launch {
             viewModel.getDetailedContact(args.contactId)
         }
