@@ -23,6 +23,6 @@ class ContactDetailViewModel(
     }
 
     suspend fun getFullSizedAvatar(){
-        _avatarBitmap.postValue(contactRepository.getFullSizePhoto(detailedContact.value))
+        _avatarBitmap.postValue(contactRepository.getFullSizedAvatar(detailedContact.value))
     }
 }

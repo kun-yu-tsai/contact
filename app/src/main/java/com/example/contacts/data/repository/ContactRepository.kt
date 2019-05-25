@@ -8,5 +8,5 @@ interface ContactRepository {
     suspend fun getAllContact(): List<Contact>
     suspend fun getDetailedContact(contactId: Long): DetailedContact?
     suspend fun getThumbnail(contact: Contact): Bitmap
-    suspend fun getFullSizePhoto(detailedContact: DetailedContact?): Bitmap
+    suspend fun getFullSizedAvatar(detailedContact: DetailedContact?): Bitmap
 }

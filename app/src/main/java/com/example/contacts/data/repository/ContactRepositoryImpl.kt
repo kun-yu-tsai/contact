@@ -27,7 +27,7 @@ class ContactRepositoryImpl(
         }
     }
 
-    override suspend fun getFullSizePhoto(detailedContact: DetailedContact?): Bitmap {
+    override suspend fun getFullSizedAvatar(detailedContact: DetailedContact?): Bitmap {
         return withContext(Dispatchers.IO) {
             contactDao.getFullSizePhoto(Uri.parse(detailedContact?.fullSizedAvatarUri))
         }
