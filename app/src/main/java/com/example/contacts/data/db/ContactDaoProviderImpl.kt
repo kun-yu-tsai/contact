@@ -1,4 +1,4 @@
-package com.example.contacts.data.provider
+package com.example.contacts.data.db
 
 import android.content.ContentResolver
 import android.graphics.Bitmap
@@ -8,7 +8,7 @@ import android.provider.ContactsContract
 import com.example.contacts.data.entity.Contact
 import com.example.contacts.data.entity.DetailedContact
 
-class ContactDaoImpl(private val contentResolver: ContentResolver) : ContactDao {
+class ContactDaoProviderImpl(private val contentResolver: ContentResolver) : ContactDao {
     override fun getAllContact(): List<Contact> {
 
         val cursor = contentResolver.query(
@@ -65,10 +65,6 @@ class ContactDaoImpl(private val contentResolver: ContentResolver) : ContactDao 
         cursor?.close()
 
         return detailedContact
-    }
-
-    override fun updateDetailContact(detailedContact: DetailedContact) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getThumbnail(thumbnailUri: Uri): Bitmap {

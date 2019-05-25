@@ -1,8 +1,8 @@
 package com.example.contacts
 
 import android.app.Application
-import com.example.contacts.data.provider.ContactDao
-import com.example.contacts.data.provider.ContactDaoImpl
+import com.example.contacts.data.db.ContactDao
+import com.example.contacts.data.db.ContactDaoProviderImpl
 import com.example.contacts.data.repository.ContactRepository
 import com.example.contacts.data.repository.ContactRepositoryImpl
 import com.example.contacts.ui.detail.ContactDetailedViewModelFactory
@@ -19,7 +19,7 @@ class ContactApplication : Application(), KodeinAware {
     override val kodein: Kodein = Kodein.lazy {
         import(androidXModule(this@ContactApplication))
 
-        bind<ContactDao>() with singleton { ContactDaoImpl(instance()) }
+        bind<ContactDao>() with singleton { ContactDaoProviderImpl(instance()) }
         bind<ContactRepository>() with singleton { ContactRepositoryImpl(instance()) }
         bind() from provider { ContactListViewModelFactory(instance())}
         bind() from provider { ContactDetailedViewModelFactory(instance())}

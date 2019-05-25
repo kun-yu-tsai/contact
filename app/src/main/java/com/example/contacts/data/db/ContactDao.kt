@@ -1,8 +1,7 @@
-package com.example.contacts.data.provider
+package com.example.contacts.data.db
 
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.lifecycle.LiveData
 import com.example.contacts.data.entity.Contact
 import com.example.contacts.data.entity.DetailedContact
 
@@ -11,5 +10,4 @@ interface ContactDao {
     fun getThumbnail(thumbnailUri: Uri) : Bitmap
     fun getFullSizePhoto(fullSizedUri: Uri) : Bitmap
     fun getDetailedContact(contactId: Long): DetailedContact?
-    fun updateDetailContact(detailedContact: DetailedContact)
 }

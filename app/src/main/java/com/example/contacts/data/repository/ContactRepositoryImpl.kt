@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import com.example.contacts.data.entity.Contact
 import com.example.contacts.data.entity.DetailedContact
-import com.example.contacts.data.provider.ContactDao
+import com.example.contacts.data.db.ContactDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -19,10 +19,6 @@ class ContactRepositoryImpl(
 
     override suspend fun getDetailedContact(contactId : Long): DetailedContact? {
         return withContext(Dispatchers.IO) { contactDao.getDetailedContact(contactId) }
-    }
-
-    override fun updateDetailContact(detailedContact: DetailedContact) {
-        contactDao.updateDetailContact(detailedContact)
     }
 
     override suspend fun getThumbnail(contact: Contact): Bitmap {

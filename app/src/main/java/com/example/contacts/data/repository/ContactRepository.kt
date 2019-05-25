@@ -7,7 +7,6 @@ import com.example.contacts.data.entity.DetailedContact
 interface ContactRepository {
     suspend fun getAllContact(): List<Contact>
     suspend fun getDetailedContact(contactId: Long): DetailedContact?
-    fun updateDetailContact(detailedContact: DetailedContact)
     suspend fun getThumbnail(contact: Contact): Bitmap
     suspend fun getFullSizePhoto(detailedContact: DetailedContact?): Bitmap
 }
