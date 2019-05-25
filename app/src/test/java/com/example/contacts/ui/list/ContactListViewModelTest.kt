@@ -8,6 +8,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertSame
 import org.junit.Rule
 import org.junit.Test
 
@@ -16,14 +17,18 @@ class ContactListViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     @Test
-    fun when_emptyContactList_viewVisibility_values() = runBlocking {
+    fun givenContactListIsEmpty_whenGetAllContact_thenViewVisibilityUpdated() = runBlocking {
+        // given
         val contactRepository: ContactRepository = mock()
         val list = emptyList<Contact>()
         whenever(contactRepository.getAllContact()).thenReturn(list)
         val viewModel = ContactListViewModel(contactRepository)
+
+        // when
         viewModel.getAllContact()
 
-        assertEquals(list, viewModel.contactList.value)
+        // then
+        assertSame(list, viewModel.contactList.value)
         assertEquals(View.GONE, viewModel.contactListVisibility.value)
         assertEquals(View.VISIBLE, viewModel.emptyScreenVisibility.value)
     }
