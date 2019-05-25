@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.ContactsContract
 import com.example.contacts.data.entity.Contact
-import com.example.contacts.data.entity.DetailedContact
+import com.example.contacts.data.entity.ContactDetail
 
 class ContactDaoProviderImpl(private val contentResolver: ContentResolver) : ContactDao {
     override fun getAllContact(): List<Contact> {
@@ -40,7 +40,7 @@ class ContactDaoProviderImpl(private val contentResolver: ContentResolver) : Con
         return contactList
     }
 
-    override fun getDetailedContact(contactId: Long): DetailedContact? {
+    override fun getContactDetail(contactId: Long): ContactDetail? {
         val cursor = contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
             arrayOf(
@@ -52,10 +52,10 @@ class ContactDaoProviderImpl(private val contentResolver: ContentResolver) : Con
             null,
             null
         )
-        var detailedContact: DetailedContact? = null
+        var contactDetail: ContactDetail? = null
 
         if(cursor?.moveToFirst() == true) {
-            detailedContact = DetailedContact(
+            contactDetail = ContactDetail(
                 cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY)),
                 cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)),
                 cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
@@ -64,7 +64,7 @@ class ContactDaoProviderImpl(private val contentResolver: ContentResolver) : Con
 
         cursor?.close()
 
-        return detailedContact
+        return contactDetail
     }
 
     override fun getThumbnail(thumbnailUri: Uri): Bitmap {

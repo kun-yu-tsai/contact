@@ -3,7 +3,7 @@ package com.example.contacts.data.repository
 import android.graphics.Bitmap
 import android.net.Uri
 import com.example.contacts.data.entity.Contact
-import com.example.contacts.data.entity.DetailedContact
+import com.example.contacts.data.entity.ContactDetail
 import com.example.contacts.data.db.ContactDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,8 +17,8 @@ class ContactRepositoryImpl(
         }
     }
 
-    override suspend fun getDetailedContact(contactId : Long): DetailedContact? {
-        return withContext(Dispatchers.IO) { contactDao.getDetailedContact(contactId) }
+    override suspend fun getContactDetail(contactId : Long): ContactDetail? {
+        return withContext(Dispatchers.IO) { contactDao.getContactDetail(contactId) }
     }
 
     override suspend fun getThumbnail(contact: Contact): Bitmap {
@@ -27,9 +27,9 @@ class ContactRepositoryImpl(
         }
     }
 
-    override suspend fun getFullSizedAvatar(detailedContact: DetailedContact?): Bitmap {
+    override suspend fun getFullSizedAvatar(contactDetail: ContactDetail?): Bitmap {
         return withContext(Dispatchers.IO) {
-            contactDao.getFullSizePhoto(Uri.parse(detailedContact?.fullSizedAvatarUri))
+            contactDao.getFullSizePhoto(Uri.parse(contactDetail?.fullSizedAvatarUri))
         }
     }
 }

@@ -47,13 +47,13 @@ class ContactDetailFragment : Fragment(), CoroutineScope, KodeinAware {
             .of(this, viewModelFactory)
             .get(ContactDetailViewModel::class.java)
 
-        viewModel.detailedContact.observe(this,
+        viewModel.contactDetail.observe(this,
             Observer { contactDetail ->
                 name.text = contactDetail.name
                 phoneNumber.text = contactDetail.phoneNumber
 
                 launch {
-                    viewModel.getFullSizedAvatar()
+                    viewModel.getFullSizedAvatar(contactDetail)
                 }
             })
 
@@ -64,7 +64,7 @@ class ContactDetailFragment : Fragment(), CoroutineScope, KodeinAware {
         )
 
         launch {
-            viewModel.getDetailedContact(args.contactId)
+            viewModel.getContactDetail(args.contactId)
         }
     }
 
