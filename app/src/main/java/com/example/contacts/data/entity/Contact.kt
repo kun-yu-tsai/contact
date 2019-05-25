@@ -4,6 +4,5 @@ data class Contact(
     val id: String,
     val name : String,
     val phoneNumber: String,
-    val thumbnailUri: String,
-    val fullSizePhotoUri: String
+    val thumbnailUri: String
 )

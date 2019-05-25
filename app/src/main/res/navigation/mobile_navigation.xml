@@ -6,10 +6,17 @@
 
     <fragment android:id="@+id/contactListFragment" android:name="com.example.contacts.ui.list.ContactListFragment"
               android:label="fragment_contact_list" tools:layout="@layout/fragment_contact_list">
-        <action android:id="@+id/showDetailedContact"
-                app:destination="@id/contactDetailFragment"/>
+        <action android:id="@+id/startDetailedContact"
+                app:destination="@id/contactDetailFragment">
+            <argument android:defaultValue="0L" android:name="contactId"/>
+        </action>
     </fragment>
     <fragment android:id="@+id/contactDetailFragment"
               android:name="com.example.contacts.ui.detail.ContactDetailFragment"
-              android:label="fragment_contact_detail" tools:layout="@layout/fragment_contact_detail"/>
+              android:label="fragment_contact_detail" tools:layout="@layout/fragment_contact_detail">
+        <argument
+                android:name="contactId"
+                app:argType="long" android:defaultValue="0L"/>
+    </fragment>
+
 </navigation>

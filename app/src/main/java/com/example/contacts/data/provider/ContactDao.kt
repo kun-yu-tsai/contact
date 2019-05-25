@@ -10,6 +10,6 @@ interface ContactDao {
     fun getAllContact() : List<Contact>
     fun getThumbnail(thumbnailUri: Uri) : Bitmap
     fun getFullSizePhoto(fullSizedUri: Uri) : Bitmap
-    fun readDetailContact(): LiveData<DetailedContact>
+    fun getDetailedContact(contactId: Long): DetailedContact?
     fun updateDetailContact(detailedContact: DetailedContact)
 }

@@ -25,8 +25,9 @@ class ContactListAdapter : RecyclerView.Adapter<ContactListAdapter.ViewHolder>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewHolder = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.contact_item, parent, false))
         viewHolder.itemView.setOnClickListener {
-            //            val contact = contactList[viewHolder.adapterPosition]
-            it.findNavController().navigate(R.id.showDetailedContact)
+            val contact = contactList[viewHolder.adapterPosition]
+            val action = ContactListFragmentDirections.startDetailedContact(contact.id.toLong())
+            it.findNavController().navigate(action)
         }
         return viewHolder
     }

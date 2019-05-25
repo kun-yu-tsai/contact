@@ -1,13 +1,10 @@
 package com.example.contacts.data.provider
 
 import android.content.ContentResolver
-import android.content.res.AssetFileDescriptor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.ContactsContract
-import android.util.Log
-import androidx.lifecycle.LiveData
 import com.example.contacts.data.entity.Contact
 import com.example.contacts.data.entity.DetailedContact
 
@@ -16,7 +13,12 @@ class ContactDaoImpl(private val contentResolver: ContentResolver) : ContactDao 
 
         val cursor = contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-            null,
+            arrayOf(
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY,
+                ContactsContract.CommonDataKinds.Phone.NUMBER,
+                ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI
+            ),
             null,
             null,
             null
@@ -27,23 +29,42 @@ class ContactDaoImpl(private val contentResolver: ContentResolver) : ContactDao 
             contactList.add(
                 Contact(
                     cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)),
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)),
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY)),
                     cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)),
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI)),
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI))
                 )
             )
         }
 
-        Log.i("myapp", "${contactList}")
-
         cursor?.close()
-
         return contactList
     }
 
-    override fun readDetailContact(): LiveData<DetailedContact> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getDetailedContact(contactId: Long): DetailedContact? {
+        val cursor = contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            arrayOf(
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY,
+                ContactsContract.CommonDataKinds.Phone.NUMBER,
+                ContactsContract.CommonDataKinds.Phone.PHOTO_URI
+            ),
+            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId,
+            null,
+            null
+        )
+        var detailedContact: DetailedContact? = null
+
+        if(cursor?.moveToFirst() == true) {
+            detailedContact = DetailedContact(
+                cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY)),
+                cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)),
+                cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
+            )
+        }
+
+        cursor?.close()
+
+        return detailedContact
     }
 
     override fun updateDetailContact(detailedContact: DetailedContact) {

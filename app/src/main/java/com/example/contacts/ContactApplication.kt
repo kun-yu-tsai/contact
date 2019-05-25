@@ -5,6 +5,7 @@ import com.example.contacts.data.provider.ContactDao
 import com.example.contacts.data.provider.ContactDaoImpl
 import com.example.contacts.data.repository.ContactRepository
 import com.example.contacts.data.repository.ContactRepositoryImpl
+import com.example.contacts.ui.detail.ContactDetailedViewModelFactory
 import com.example.contacts.ui.list.ContactListViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -21,6 +22,7 @@ class ContactApplication : Application(), KodeinAware {
         bind<ContactDao>() with singleton { ContactDaoImpl(instance()) }
         bind<ContactRepository>() with singleton { ContactRepositoryImpl(instance()) }
         bind() from provider { ContactListViewModelFactory(instance())}
+        bind() from provider { ContactDetailedViewModelFactory(instance())}
     }
 
 }
