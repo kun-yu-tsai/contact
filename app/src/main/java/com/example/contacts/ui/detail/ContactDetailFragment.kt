@@ -50,6 +50,8 @@ class ContactDetailFragment : Fragment(), CoroutineScope, KodeinAware {
         viewModel.detailedContact.observe(this,
             Observer { contactDetail ->
                 name.text = contactDetail.name
+                phoneNumber.text = contactDetail.phoneNumber
+
                 launch {
                     viewModel.getFullSizedAvatar()
                 }
