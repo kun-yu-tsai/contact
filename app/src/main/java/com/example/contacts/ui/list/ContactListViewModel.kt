@@ -14,6 +14,7 @@ class ContactListViewModel(
         get() = _contactList
 
     suspend fun getAllContact() {
-        _contactList.postValue(contactRepository.getAllContact())
+        val list = contactRepository.getAllContact()
+        _contactList.postValue(list)
     }
 }

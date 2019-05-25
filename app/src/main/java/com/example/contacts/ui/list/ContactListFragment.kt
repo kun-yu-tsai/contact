@@ -59,7 +59,9 @@ class ContactListFragment : Fragment(), KodeinAware, CoroutineScope {
             .get(ContactListViewModel::class.java)
 
         viewModel.contactList.observe(this, Observer {
-            contactListAdapter.updateAllContact(it)
+            contactListAdapter.setContactList(it)
+            emptyScreen.visibility = if(it.isEmpty()) View.VISIBLE else View.GONE
+            contactList.visibility = if(it.isEmpty()) View.GONE else View.VISIBLE
         })
 
         if (context?.checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
@@ -68,11 +70,11 @@ class ContactListFragment : Fragment(), KodeinAware, CoroutineScope {
                 MainActivity.REQUEST_CODE_PERMISSION_CONTACT
             )
         } else {
-            updateAllContacts()
+            updateContacts()
         }
     }
 
-    private fun updateAllContacts() {
+    private fun updateContacts() {
         if (context?.checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
             launch {
                 viewModel.getAllContact()
@@ -85,7 +87,7 @@ class ContactListFragment : Fragment(), KodeinAware, CoroutineScope {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == MainActivity.REQUEST_CODE_PERMISSION_CONTACT) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                updateAllContacts()
+                updateContacts()
             } else {
                 Toast.makeText(context, "We need the permission to display the contacts", Toast.LENGTH_SHORT).show()
             }
@@ -96,8 +98,4 @@ class ContactListFragment : Fragment(), KodeinAware, CoroutineScope {
         super.onDestroy()
         job.cancel()
     }
-
-    // each view click event to open another fragment -> in the navigation component?
-
-
 }

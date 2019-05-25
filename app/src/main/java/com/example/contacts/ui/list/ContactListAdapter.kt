@@ -56,7 +56,7 @@ class ContactListAdapter : RecyclerView.Adapter<ContactListAdapter.ViewHolder>()
         }
     }
 
-    fun updateAllContact(contactList: List<Contact>) {
+    fun setContactList(contactList: List<Contact>) {
         this.contactList = contactList
         notifyDataSetChanged()
     }

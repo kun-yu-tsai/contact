@@ -70,9 +70,8 @@ class ContactDetailFragment : Fragment(), CoroutineScope, KodeinAware {
         }
     }
 
-    // show the view only. Show it by ViewModel? shall be viewModel, because I need more data. And I might need to change the data.
-    // provide editing feature?
-    // provide calling and email feature?
-
-
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
 }
