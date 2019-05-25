@@ -38,14 +38,6 @@ class ContactListAdapter : RecyclerView.Adapter<ContactListAdapter.ViewHolder>()
         holder.bind(contactList[position])
     }
 
-    override fun onViewDetachedFromWindow(holder: ViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-    }
-
-    override fun onViewAttachedToWindow(holder: ViewHolder) {
-        super.onViewAttachedToWindow(holder)
-    }
-
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), KodeinAware, CoroutineScope {
         private var job = Job()
         override val coroutineContext: CoroutineContext
