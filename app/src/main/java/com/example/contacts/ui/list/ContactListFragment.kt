@@ -58,11 +58,9 @@ class ContactListFragment : Fragment(), KodeinAware, CoroutineScope {
             .of(this, viewModelFactory)
             .get(ContactListViewModel::class.java)
 
-        viewModel.contactList.observe(this, Observer {
-            contactListAdapter.setContactList(it)
-            emptyScreen.visibility = if(it.isEmpty()) View.VISIBLE else View.GONE
-            contactList.visibility = if(it.isEmpty()) View.GONE else View.VISIBLE
-        })
+        viewModel.contactList.observe(this, Observer { contactListAdapter.setContactList(it) })
+        viewModel.contactListVisibility.observe(this, Observer { contactList.visibility = it })
+        viewModel.emptyScreenVisibility.observe(this, Observer { emptyScreen.visibility = it })
 
         if (context?.checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(

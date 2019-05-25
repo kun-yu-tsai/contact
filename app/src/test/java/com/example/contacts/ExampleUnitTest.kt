@@ -1,5 +1,6 @@
 package com.example.contacts
 
+import android.view.View
 import org.hamcrest.CoreMatchers.*
 import org.junit.Test
 
@@ -14,6 +15,7 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+        assertEquals(View.VISIBLE, View.VISIBLE)
     }
 
     @Test
