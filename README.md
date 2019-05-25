@@ -8,6 +8,8 @@ Main tech stacks
 - Coroutine
 - Kodein as DI
 - Navigation Component
+- Constraint Layout
+- Unit tests: Mockito
 
 To do
-- Apply FragmentFactory and FragmentScenario to implement the test suite for Fragment
+- Apply FragmentFactory, FragmentScenario and Expresso to implement the test suite for Fragment
