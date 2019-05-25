@@ -1,16 +1,19 @@
 package com.example.contacts.ui.list
 
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contacts.R
+import com.example.contacts.ui.MainActivity
 import kotlinx.android.synthetic.main.fragment_contact_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,18 +46,11 @@ class ContactListFragment : Fragment(), KodeinAware, CoroutineScope {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_contact_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        button.setOnClickListener {
-            launch {
-                viewModel.getAllContact()
-            }
-        }
 
         contactList.layoutManager = LinearLayoutManager(context)
         contactList.adapter = contactListAdapter
@@ -64,8 +60,36 @@ class ContactListFragment : Fragment(), KodeinAware, CoroutineScope {
 
         viewModel.contactList.observe(this, Observer {
             contactListAdapter.updateAllContact(it)
-            Log.i("myapp", "update ${it.size}")
         })
+
+        if (context?.checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                arrayOf(Manifest.permission.READ_CONTACTS),
+                MainActivity.REQUEST_CODE_PERMISSION_CONTACT
+            )
+        } else {
+            updateAllContacts()
+        }
+    }
+
+    private fun updateAllContacts() {
+        if (context?.checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+            launch {
+                viewModel.getAllContact()
+            }
+        }
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == MainActivity.REQUEST_CODE_PERMISSION_CONTACT) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                updateAllContacts()
+            } else {
+                Toast.makeText(context, "We need the permission to display the contacts", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onDestroy() {
