@@ -34,7 +34,7 @@ class ContactListFragment : Fragment(), KodeinAware, CoroutineScope {
     private val viewModelFactory: ContactListViewModelFactory by instance()
 
     private val contactListAdapter: ContactListAdapter by lazy {
-        ContactListAdapter()
+        ContactListAdapter(kodein)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

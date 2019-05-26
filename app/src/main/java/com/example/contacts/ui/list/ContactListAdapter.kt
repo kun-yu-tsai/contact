@@ -1,5 +1,6 @@
 package com.example.contacts.ui.list
 
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +19,13 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
 import kotlin.coroutines.CoroutineContext
 
-class ContactListAdapter : RecyclerView.Adapter<ContactListAdapter.ViewHolder>() {
+class ContactListAdapter(override val kodein: Kodein) : RecyclerView.Adapter<ContactListAdapter.ViewHolder>(),
+    KodeinAware, CoroutineScope {
+    private var job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
 
+    private val contactRepository: ContactRepository by instance()
     private var contactList: List<Contact> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,23 +42,19 @@ class ContactListAdapter : RecyclerView.Adapter<ContactListAdapter.ViewHolder>()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(contactList[position])
+        launch {
+            holder.updateThumbnail(contactRepository.getThumbnail(contactList[position]))
+        }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), KodeinAware, CoroutineScope {
-        private var job = Job()
-        override val coroutineContext: CoroutineContext
-            get() = job + Dispatchers.Main
-
-        override val kodein: Kodein by org.kodein.di.android.kodein(itemView.context)
-        private val contactRepository: ContactRepository by instance()
-
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(contact: Contact) {
             itemView.name.text = contact.name
             itemView.phoneNumber.text = contact.phoneNumber
+        }
 
-            launch {
-                itemView.thumbnail.setImageBitmap(contactRepository.getThumbnail(contact))
-            }
+        fun updateThumbnail(bitmap: Bitmap) {
+            itemView.thumbnail.setImageBitmap(bitmap)
         }
     }
 
